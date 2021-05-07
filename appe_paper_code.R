@@ -171,7 +171,7 @@ hist(residuals(eg11_10), breaks = 80, main ='Histogram of the residuals',
 box()
 
 # QQ plot
-qqplot(rt(1000, df = 4.7), as.numeric(residuals(g11_10)), ylab = 'Sample Quantiles', 
+qqplot(rt(1000, df = 4.7), as.numeric(residuals(eg11_10)), ylab = 'Sample Quantiles', 
        xlab = 'Theoretical Quantiles', main = 'Student\'s t Q-Q Plot')
 qqline(as.numeric(residuals(eg11_10)))
 
