@@ -6,13 +6,17 @@ library(tseries)
 library(aTSA)
 
 # File path (Rodrigo)
-path <- 'C:\\Users\\rodri\\OneDrive\\Documents\\Academics\\Univerzita Karlova\\2nd semester\\Applied Econometrics\\^GSPC.csv'
+#path <- 'C:\\Users\\rodri\\OneDrive\\Documents\\Academics\\Univerzita Karlova\\2nd semester\\Applied Econometrics\\^GSPC.csv'
 
 # File path (Dominik)
-#path <- '(paste your location for the data here)\\^GSPC.csv'
+path <- 'C:\\Users\\domin\\Desktop\\Studium\\Master\\Bonn\\3.1 Prag\\1_Aplied Econometrics\\1_Term_Paper\\^GSPC.csv'
 
 # Load data
 raw_data <- read.csv(path)
+
+# Values for summary statistics
+summary(raw_data[[2]])
+sd(raw_data[[2]])
 
 # Plot for price level
 plot.ts(raw_data[, 2], main = 'GSPC Prices', ylab = NA)
@@ -176,5 +180,5 @@ qqplot(rt(1000, df = 4.7), as.numeric(residuals(eg11_10)), ylab = 'Sample Quanti
 qqline(as.numeric(residuals(eg11_10)))
 
 
-
+# Hi Rodrigo, can you read this?
 
