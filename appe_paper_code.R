@@ -2,14 +2,13 @@
 library(rugarch)
 library(quantmod)
 library(forecast)
-library(tseries)
 library(aTSA)
 
 # File path (Rodrigo)
-#path <- 'C:\\Users\\rodri\\OneDrive\\Documents\\Academics\\Univerzita Karlova\\2nd semester\\Applied Econometrics\\^GSPC.csv'
+path <- 'C:\\Users\\rodri\\OneDrive\\Documents\\Academics\\Univerzita Karlova\\2nd semester\\Applied Econometrics\\^GSPC.csv'
 
 # File path (Dominik)
-path <- 'C:\\Users\\domin\\Desktop\\Studium\\Master\\Bonn\\3.1 Prag\\1_Aplied Econometrics\\1_Term_Paper\\^GSPC.csv'
+#path <- 'C:\\Users\\domin\\Desktop\\Studium\\Master\\Bonn\\3.1 Prag\\1_Aplied Econometrics\\1_Term_Paper\\^GSPC.csv'
 
 # Load data
 raw_data <- read.csv(path)
@@ -22,7 +21,7 @@ sd(raw_data[[2]])
 plot.ts(raw_data[, 2], main = 'GSPC Prices', ylab = NA)
 
 # Test for stationarity
-adf.test(raw_data[, 2])
+tseries::adf.test(raw_data[, 2])
 # Rejects alternative of stationarity
 
 # Compute log returns
@@ -32,13 +31,19 @@ rets <- diff(log(raw_data[, 2]))
 plot.ts(rets, main = 'Log Returns', ylab = NA)
 
 # Testing for stationarity
-adf.test(rets)
+tseries::adf.test(rets)
 # Rejects null of unit root
 
 # ACF and PACF
 acf(rets)
 pacf(rets)
 # Strong autocorrelations in lags 1 and 2 suggests we should model mean (ARMA)
+
+# Ljung-Box test (H0: independently distributed data)
+Box.test(rets, lag = 5, type = 'Ljung-Box')
+Box.test(rets, lag = 10, type = 'Ljung-Box')
+Box.test(rets, lag = 20, type = 'Ljung-Box')
+# Rejects independently distributed data -> assume autorrelation
 
 # Testing auto.arima function suggestion
 autofit <- auto.arima(rets)
@@ -179,6 +184,15 @@ qqplot(rt(1000, df = 4.7), as.numeric(residuals(eg11_10)), ylab = 'Sample Quanti
        xlab = 'Theoretical Quantiles', main = 'Student\'s t Q-Q Plot')
 qqline(as.numeric(residuals(eg11_10)))
 
+# ACF and PACF for residuals
+acf(residuals(eg11_10))
+pacf(residuals(eg11_10))
+
+# Ljung-Box test for residuals
+Box.test(residuals(eg11_10), lag = 5, type = 'Ljung-Box')
+Box.test(residuals(eg11_10), lag = 10, type = 'Ljung-Box')
+Box.test(residuals(eg11_10), lag = 20, type = 'Ljung-Box')
+# Rejects no autocorrelation
 
 # Hi Rodrigo, can you read this?
 
